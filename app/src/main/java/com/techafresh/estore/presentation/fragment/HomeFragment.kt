@@ -1,6 +1,7 @@
 package com.techafresh.estore.presentation.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.techafresh.estore.data.dataclasses.ProductsItem
 import com.techafresh.estore.databinding.FragmentHomeBinding
 import com.techafresh.estore.presentation.adapter.ItemsAdapter
 import com.techafresh.estore.presentation.viewmodel.StoreViewModel
+import java.lang.Exception
 
 class HomeFragment : Fragment() {
 
@@ -34,8 +36,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         storeViewModel = (activity as MainActivity).storeViewModel
+        try {
+            getAllProducts()
+        }catch (ex : Exception){
+            Log.d("MYTAG" , "There was a caught")
+        }
 
-        getAllProducts()
     }
 
     private fun initRV(products : List <ProductsItem>){
@@ -47,8 +53,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllProducts(){
-        storeViewModel.getAllProducts().observe(viewLifecycleOwner, Observer {
+        storeViewModel.getAllProducts().observe(viewLifecycleOwner) {
             initRV(it)
-        })
+        }
     }
 }

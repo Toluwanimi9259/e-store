@@ -9,4 +9,8 @@
         android:id="@+id/cartFragment"
         android:icon="@drawable/baseline_shopping_cart_24"
         android:title="Cart" />
+    <item
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/baseline_history_24"
+        android:title="History" />
 </menu>
