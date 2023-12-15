@@ -1,21 +1,23 @@
 package com.techafresh.estore.presentation.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.techafresh.estore.MainActivity
 import com.techafresh.estore.R
 import com.techafresh.estore.data.dataclasses.ProductsItem
 import com.techafresh.estore.data.dataclasses.Rating
 import com.techafresh.estore.databinding.FragmentDetailBinding
 import com.techafresh.estore.presentation.viewmodel.StoreViewModel
-import java.lang.Exception
 
 
 class DetailFragment : Fragment() {
@@ -23,6 +25,8 @@ class DetailFragment : Fragment() {
     private lateinit var storeViewModel: StoreViewModel
 
     private lateinit var binding: FragmentDetailBinding
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
         storeViewModel = (activity as MainActivity).storeViewModel
+        sharedPreferences = (activity as MainActivity).sharedPreferences
 
         val selected_product = ProductsItem(
             category = requireArguments().getString("category")!!,
@@ -52,6 +57,11 @@ class DetailFragment : Fragment() {
             it.findNavController().navigate(R.id.action_detailFragment_to_homeFragment2)
         }
 
+        binding.buttonAddToCartDetail.setOnClickListener {
+            saveDataToCart(selected_product)
+            it.findNavController().navigate(R.id.action_detailFragment_to_cartFragment2)
+        }
+
         try {
             binding.apply {
                 Glide.with(this@DetailFragment).load(selected_product.image).into(binding.imageViewProductDetail)
@@ -63,6 +73,14 @@ class DetailFragment : Fragment() {
         }catch (ex : Exception){
             Log.d("MYTAG" , "There was a problem with the selected product")
         }
+    }
+
+    private fun saveDataToCart(selectedProduct : ProductsItem){
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        val gson = Gson()
+        val selectedProductJson : String = gson.toJson(selectedProduct)
+        editor.putString("cart_item ${selectedProduct.id}", selectedProductJson)
+        editor.apply()
     }
 
 }
