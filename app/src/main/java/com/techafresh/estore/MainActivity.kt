@@ -5,12 +5,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.techafresh.estore.data.db.CartViewModel
 import com.techafresh.estore.databinding.ActivityMainBinding
 import com.techafresh.estore.presentation.viewmodel.StoreViewModel
 import com.techafresh.estore.presentation.viewmodel.factory.StoreViewModelFactory
@@ -19,6 +21,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    val viewModel: CartViewModel by viewModels()
 
     @Inject
     lateinit var storeViewModelFactory: StoreViewModelFactory
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerViewXX) as NavHostFragment
 

@@ -13,9 +13,12 @@ import com.google.gson.Gson
 import com.techafresh.estore.MainActivity
 import com.techafresh.estore.R
 import com.techafresh.estore.data.dataclasses.ProductsItem
+import com.techafresh.estore.data.dataclasses.Rating
+import com.techafresh.estore.data.db.CartViewModel
+import com.techafresh.estore.data.db.model.CartItem
 import com.techafresh.estore.databinding.CardItemBinding
 
-class ItemsAdapter(var products : List<ProductsItem>) :  RecyclerView.Adapter<ItemsAdapter.ProductViewHolder>(){
+class ItemsAdapter(var products : List<ProductsItem> , private val viewModel: CartViewModel) :  RecyclerView.Adapter<ItemsAdapter.ProductViewHolder>(){
 
     inner class ProductViewHolder(private val binding : CardItemBinding) : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
@@ -24,17 +27,37 @@ class ItemsAdapter(var products : List<ProductsItem>) :  RecyclerView.Adapter<It
             binding.textViewTitle.text = product.title
             Glide.with(binding.imageViewItem.context).load(product.image).into(binding.imageViewItem)
 
+            var notPressed = 0
+
             binding.buttonAddToCart.setOnClickListener {
-                val sharedPref = binding.root.context.getSharedPreferences("cart", 0)
-                val editor: SharedPreferences.Editor = sharedPref.edit()
-                val gson = Gson()
-                val selectedProductJson : String = gson.toJson(product)
-                editor.putString("cart_item ${product.id}", selectedProductJson)
-                editor.apply()
+                if (notPressed == 0){
+                val cartItem : CartItem = CartItem(
+                category = product.category,
+                description = product.description,
+                product_id = product.id,
+                image = product.image,
+                price = product.price,
+                rating = Rating(0,0.0),
+                title = product.title,
+                quantity = 1
+                )
+                viewModel.insert(cartItem)
+                Toast.makeText(binding.imageViewItem.context, "Added To Cart Successfully", Toast.LENGTH_SHORT).show()
+                notPressed = 1
+                }
+                // Will turn into a snack bar
+
+
+//                val sharedPref = binding.root.context.getSharedPreferences("cart", 0)
+//                val editor: SharedPreferences.Editor = sharedPref.edit()
+//                val gson = Gson()
+//                val selectedProductJson : String = gson.toJson(product)
+//                editor.putString("cart_item ${product.id}", selectedProductJson)
+//                editor.apply()
             }
 
             binding.root.setOnClickListener {
-                Toast.makeText(binding.imageViewItem.context, "Loading...", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(binding.imageViewItem.context, "Loading...", Toast.LENGTH_SHORT).show()
                 val selectedProduct = product
 
                 val bundle = bundleOf(

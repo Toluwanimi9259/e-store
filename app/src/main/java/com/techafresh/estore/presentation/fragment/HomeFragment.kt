@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.techafresh.estore.MainActivity
 import com.techafresh.estore.R
 import com.techafresh.estore.data.dataclasses.ProductsItem
+import com.techafresh.estore.data.db.CartViewModel
 import com.techafresh.estore.databinding.FragmentHomeBinding
 import com.techafresh.estore.presentation.adapter.ItemsAdapter
 import com.techafresh.estore.presentation.viewmodel.StoreViewModel
@@ -24,6 +25,8 @@ class HomeFragment : Fragment() {
 
     lateinit var itemsAdapter: ItemsAdapter
 
+    private lateinit var cartViewModel: CartViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +39,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         storeViewModel = (activity as MainActivity).storeViewModel
+        cartViewModel = (activity as MainActivity).viewModel
+
         try {
             getAllProducts()
         }catch (ex : Exception){
@@ -45,7 +50,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRV(products : List <ProductsItem>){
-        itemsAdapter = ItemsAdapter(products)
+        itemsAdapter = ItemsAdapter(products, cartViewModel)
         binding.recV.apply {
             adapter = itemsAdapter
             layoutManager = LinearLayoutManager(activity)

@@ -123,6 +123,19 @@
 
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="49dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="fitXY"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCartTitle"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="@color/black" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

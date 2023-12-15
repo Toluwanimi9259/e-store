@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -16,6 +17,8 @@ import com.techafresh.estore.MainActivity
 import com.techafresh.estore.R
 import com.techafresh.estore.data.dataclasses.ProductsItem
 import com.techafresh.estore.data.dataclasses.Rating
+import com.techafresh.estore.data.db.CartViewModel
+import com.techafresh.estore.data.db.model.CartItem
 import com.techafresh.estore.databinding.FragmentDetailBinding
 import com.techafresh.estore.presentation.viewmodel.StoreViewModel
 
@@ -27,6 +30,8 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
 
     private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var cartViewModel: CartViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +47,7 @@ class DetailFragment : Fragment() {
         binding = FragmentDetailBinding.bind(view)
         storeViewModel = (activity as MainActivity).storeViewModel
         sharedPreferences = (activity as MainActivity).sharedPreferences
+        cartViewModel = (activity as MainActivity).viewModel
 
         val selected_product = ProductsItem(
             category = requireArguments().getString("category")!!,
@@ -58,8 +64,21 @@ class DetailFragment : Fragment() {
         }
 
         binding.buttonAddToCartDetail.setOnClickListener {
-            saveDataToCart(selected_product)
-            it.findNavController().navigate(R.id.action_detailFragment_to_cartFragment2)
+            val cartItem : CartItem = CartItem(
+                category = selected_product.category,
+                description = selected_product.description,
+                product_id = selected_product.id,
+                image = selected_product.image,
+                price = selected_product.price,
+                rating = Rating(0,0.0),
+                title = selected_product.title,
+                quantity = 1
+            )
+            cartViewModel.insert(cartItem)
+
+            Toast.makeText(activity, "Added To Cart Successfully", Toast.LENGTH_SHORT).show()
+//            saveDataToCart(selected_product)
+//            it.findNavController().navigate(R.id.action_detailFragment_to_cartFragment2)
         }
 
         try {
