@@ -7,7 +7,6 @@
     android:layout_margin="3dp"
     android:background="#FFFFFF"
     android:elevation="100dp"
-    android:padding="5dp"
     app:cardCornerRadius="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,20 +14,8 @@
         android:layout_height="130dp"
         android:background="@color/white">
 
-        <Button
-            android:id="@+id/buttonAddToCart"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Add to cart"
-            app:backgroundTint="@null"
-            android:background="@drawable/btn_back2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <ImageView
-            android:id="@+id/imageViewItem"
+            android:id="@+id/imageViewCardItemHistory"
             android:layout_width="128dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -38,25 +25,38 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:srcCompat="@drawable/bag" />
 
         <TextView
-            android:id="@+id/textViewPrice"
+            android:id="@+id/textViewPriceTotalHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Total = $219.9"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewCartPriceHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="$109.95"
+            android:layout_marginTop="4dp"
+            android:text="Price = $109.95"
             android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/imageViewItem"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewCardItemHistory"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCartTitleHistory" />
 
         <TextView
-            android:id="@+id/textViewTitle"
+            android:id="@+id/textViewCartTitleHistory"
             android:layout_width="0dp"
             android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
@@ -66,8 +66,21 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageViewItem"
+            app:layout_constraintStart_toEndOf="@+id/imageViewCardItemHistory"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="8dp"
+            android:text="Qty = 2"
+            android:textSize="19sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageViewCardItemHistory" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

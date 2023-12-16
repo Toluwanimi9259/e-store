@@ -22,7 +22,7 @@ object AppModule {
             appContext,
             CartDatabase::class.java,
             "RssReader"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides

@@ -24,7 +24,7 @@ class NetModule {
             .baseUrl("https://fakestoreapi.com/")
             .client(
                 OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build()

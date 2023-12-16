@@ -10,8 +10,8 @@ import com.techafresh.estore.data.db.dao.CartDao
 import com.techafresh.estore.data.db.model.CartItem
 
 @Database(
-    entities = [CartItem::class],
-    version = 1
+    entities = [CartItem::class,HistoryItem::class],
+    version = 2
 )
 @TypeConverters(RatingConverter::class)
 abstract class CartDatabase: RoomDatabase() {
@@ -33,6 +33,6 @@ abstract class CartDatabase: RoomDatabase() {
 
         private fun createDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
-                CartDatabase::class.java, "cart.db").build()
+                CartDatabase::class.java, "cart.db").fallbackToDestructiveMigration().build()
     }
 }

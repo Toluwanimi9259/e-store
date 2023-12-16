@@ -3,14 +3,16 @@ package com.techafresh.estore.data.db
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.techafresh.estore.R
 import com.techafresh.estore.data.db.model.CartItem
 import com.techafresh.estore.databinding.CartItemBinding
-import com.techafresh.estore.databinding.CartTwoItemBinding
+
 
 class CartItemAdapter (
     var items: List<CartItem>,
@@ -45,6 +47,8 @@ class CartItemAdapter (
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
         val curShoppingItem = items[position]
 
+        setScaleAnimation(holder.binding.root)
+
         holder.binding.textViewCartTitle.text = curShoppingItem.title
         holder.binding.textView2.text = "${curShoppingItem.quantity}"
         holder.binding.textViewCartPrice.text = "$${curShoppingItem.price}"
@@ -74,6 +78,27 @@ class CartItemAdapter (
 //        holder.binding.ivEdit.setOnClickListener {
 //
 //        }
+    }
+
+    private fun setFadeAnimation(view: View) {
+        val anim = AlphaAnimation(0.0f, 1.0f)
+        anim.duration = 1000
+        view.startAnimation(anim)
+    }
+
+    private fun setScaleAnimation(view: View) {
+        val anim = ScaleAnimation(
+            0.0f,
+            1.0f,
+            0.0f,
+            1.0f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        anim.duration = 500
+        view.startAnimation(anim)
     }
 
     inner class CartItemViewHolder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root)

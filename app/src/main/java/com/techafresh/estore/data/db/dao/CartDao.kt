@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.techafresh.estore.data.db.HistoryItem
 import com.techafresh.estore.data.db.model.CartItem
 
 @Dao
@@ -18,4 +19,20 @@ interface CartDao {
 
     @Query("SELECT * FROM shopping_items")
     fun getAllShoppingItems(): LiveData<List<CartItem>>
+
+    @Query("DELETE FROM shopping_items")
+    fun clearCart()
+
+    // History
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insertHistory(historyItem: HistoryItem)
+
+    @Delete
+    fun deleteHistory(historyItem: HistoryItem)
+
+    @Query("Delete FROM history")
+    fun deleteAll()
+
+    @Query("SELECT * FROM history")
+    fun getAllHistory(): LiveData<List<HistoryItem>>
 }

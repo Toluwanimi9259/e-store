@@ -3,7 +3,11 @@ package com.techafresh.estore.presentation.adapter
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
@@ -20,7 +24,7 @@ import com.techafresh.estore.databinding.CardItemBinding
 
 class ItemsAdapter(var products : List<ProductsItem> , private val viewModel: CartViewModel) :  RecyclerView.Adapter<ItemsAdapter.ProductViewHolder>(){
 
-    inner class ProductViewHolder(private val binding : CardItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ProductViewHolder(val binding : CardItemBinding) : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
         fun bind(product : ProductsItem){
             binding.textViewPrice.text = "$" + product.price.toString()
@@ -74,6 +78,27 @@ class ItemsAdapter(var products : List<ProductsItem> , private val viewModel: Ca
         }
     }
 
+    private fun setFadeAnimation(view: View) {
+        val anim = AlphaAnimation(0.0f, 1.0f)
+        anim.duration = 1000
+        view.startAnimation(anim)
+    }
+
+    private fun setScaleAnimation(view: View) {
+        val anim = ScaleAnimation(
+            0.0f,
+            1.0f,
+            0.0f,
+            1.0f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        anim.duration = 500
+        view.startAnimation(anim)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = CardItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ProductViewHolder(binding)
@@ -83,5 +108,6 @@ class ItemsAdapter(var products : List<ProductsItem> , private val viewModel: Ca
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.bind(products[position])
+        setScaleAnimation(holder.binding.root)
     }
 }
